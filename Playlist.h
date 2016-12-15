@@ -22,6 +22,7 @@ public:
     void setRating(unsigned int inRating) { myRating = inRating; };
     unsigned int numSongs() { return myPlaylist.size(); };
     vector<shared_ptr<LibrarySong>> getVector() { return myPlaylistVec; };
+    bool contains(unsigned int identifier) { return myPlaylist.count(identifier) == 1; };
     
     // Add and remove songs
     void addSong(shared_ptr<LibrarySong> inSong) { myPlaylist.insert({inSong->getIdentifier(), inSong}); myPlaylistVec.push_back(inSong); };
