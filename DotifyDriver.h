@@ -16,6 +16,7 @@ public:
     void removeSongFromLibrary(unsigned int identifier) { dotLibrary.removeSong(identifier); };
     void playLibrarySong(unsigned int identifier, unsigned int numTimesPlayed) { dotLibrary.playSong(identifier, numTimesPlayed); };
     vector<shared_ptr<LibrarySong>> getSortedLibrary(string sortCategory) { return dotLibrary.sortLibrary(sortCategory); };
+    bool libContains(unsigned int identifier) { return dotLibrary.contains(identifier); };
     //*** TO DO
     //export
     //import
