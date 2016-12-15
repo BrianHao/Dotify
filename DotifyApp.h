@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 #include <memory>
+#include <fstream>
+#include <sstream>
 #include "DotifyDriver.h"
 #include "SortedVector.h"
 using namespace std;
@@ -13,6 +15,9 @@ public:
     // Constructor and Destructor
     DotifyApp() {};
     ~DotifyApp() {};
+    
+    // Implaments loading from a library and playlist file from the commandline
+    void load(int argc, const char * argv[]);
     
     // Runs the Dotify Application
     // Continually receives input from the user and executes the corresponding command
@@ -24,6 +29,7 @@ private:
     
     // Functionality of the ToDoList App, mapped to input by the user
     void addSong();
+    shared_ptr<Song> getSong();
     void removeSong();
     void addPlaylist();
     void removePlaylist();
@@ -32,15 +38,20 @@ private:
     void addSongToPlaylist();
     void removeSongFromPlaylist();
     void displayLibrarySongs();
-    void displayPlaylistSongsAlpha();
-    void displayPlaylistSongsAdded();
+    void displayPlaylists();
+    void displayPlaylistSongs();
     void ratePlaylist();
     void playSong();
     void exportToFile();
     void help();
     
     // Helper functions
-    
+    // Gets an input from the user
+    string getInput();
+    // Gets a line from the user
+    string getLine();
+    // Gets an integer from the user
+    unsigned int getInt();
     
 };
 
