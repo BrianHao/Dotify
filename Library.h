@@ -15,11 +15,14 @@ public:
     ~Library() {};
     
     // Manage Library Songs
-    void addSong(shared_ptr<LibrarySong> inSong) { myLibrary.insert({inSong->getIdentifier(), inSong}); };
+    void addSong(shared_ptr<LibrarySong> inSong) {
+        myLibrary.insert({inSong->getIdentifier(),inSong}); };
     void removeSong(unsigned int identifier) { myLibrary.erase(identifier); };
-    void playSong(unsigned int identifier, unsigned int numTimesPlayed) { myLibrary[identifier]->playSong(numTimesPlayed); };
+    void playSong(unsigned int identifier, unsigned int numTimesPlayed) {
+        myLibrary[identifier]->playSong(numTimesPlayed); };
     shared_ptr<LibrarySong> getLibSong(unsigned int identifier) { return myLibrary[identifier]; };
     bool contains(unsigned int identifier) { return myLibrary.count(identifier) == 1; };
+    bool empty() { return myLibrary.empty(); };
     
     // Get sorted list of Library songs for display
     vector<shared_ptr<LibrarySong>> sortLibrary(string sortCategory);

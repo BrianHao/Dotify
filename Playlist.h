@@ -12,7 +12,8 @@ using namespace std;
 class Playlist {
 public:
     // Constructor and Destructor
-    Playlist(string inPlaylistName = "", unsigned int inPlaylistRating = 1) : myName(inPlaylistName), myRating(inPlaylistRating) {};
+    Playlist(string inPlaylistName = "", unsigned int inPlaylistRating = 1) :
+        myName(inPlaylistName), myRating(inPlaylistRating) {};
     ~Playlist() {};
     
     // Getters and Setters
@@ -25,7 +26,8 @@ public:
     bool contains(unsigned int identifier) { return myPlaylist.count(identifier) == 1; };
     
     // Add and remove songs
-    void addSong(shared_ptr<LibrarySong> inSong) { myPlaylist.insert({inSong->getIdentifier(), inSong}); myPlaylistVec.push_back(inSong); };
+    void addSong(shared_ptr<LibrarySong> inSong) {
+        myPlaylist.insert({inSong->getIdentifier(), inSong}); myPlaylistVec.push_back(inSong); };
     void removeSong(unsigned int identifier);
     
     // Comparator
