@@ -83,7 +83,10 @@ void DotifyApp::run() {
     /** DOTIFY COMMANDS **/
     /*********************/
 
-// Adds a song to the library
+// This command adds a new song to the user’s library. The user specifies the song’s name, artist, and album.
+// By default, the song is assigned the next available identifier and starts with 0 plays. If the song already
+// exists in the library, indicate the problem.
+
 void DotifyApp::addSong() {
     shared_ptr<LibrarySong> newLibSong(new LibrarySong(getSong()));
     
@@ -117,20 +120,57 @@ shared_ptr<Song> DotifyApp::getSong() {
     return newSong;
 }
 
-// Removes a song from the library
+// This command removes a song from the user’s library and any playlists that that song belongs to.
+// The user specifies the song’s identifier. Display the playlists that the song was removed from.
+// If the song does not exist in the library, indicate the problem.
+
 void DotifyApp::removeSong() {
-    unsigned int removeIdentifier = 0;
+    unsigned int identifier = 0;
     cout << "What is the identifier of the song you’d like to remove from your library?" << endl;
-    removeIdentifier = getInt();
+    identifier = getInt();
     
-    if (!dotDriver.libContains(removeIdentifier)) {
-        cout << "No song with identifier #" << removeIdentifier << "exists in your library." << endl;
+    // If song does not exist in library, tells the user
+    if (!dotDriver.libContains(identifier)) {
+        cout << "No song with identifier #" << identifier << " exists in your library." << endl;
         return;
     }
     
+    // Song exists in the library, sets it to temp, remove it from the library
+    shared_ptr<LibrarySong> tempSong = dotDriver.getLibSong(identifier);
+    dotDriver.removeSongFromLibrary(identifier);
+    
+    // Check if song exists in any playlists
+    // Get a vector containing the names of all playlists with that song
+    vector<string> playlistsContainingSong = dotDriver.playlistsContainingSong(identifier);
+    
+    // If no playlists contain the song, let user know song was removed from only library
+    if (playlistsContainingSong.size() == 0) {
+        cout << "\"" << tempSong->getSongName() << "\" by " << tempSong->getSongArtist() <<
+        " (" << tempSong->getSongAlbum() << "), identified as #" << tempSong->getIdentifier() <<
+        ", removed successfully from your library." << endl;
+    } else { // Let user know song was removed from library and playlists
+        cout << "\"" << tempSong->getSongName() << "\" by " << tempSong->getSongArtist() <<
+        " (" << tempSong->getSongAlbum() << "), identified as #" << tempSong->getIdentifier() <<
+        ", removed successfully from your library and from playlists \"";
+        for (int i = 0; i < playlistsContainingSong.size(); i++) {
+            cout << playlistsContainingSong.at(i) << "\"";
+            if (i > 0) {
+                cout << ", ";
+            } else {
+                cout << "." << endl;
+            }
+        }
+    }
 }
 
+// This command creates a new playlist. The user specifies the playlist’s title. By default, the playlist
+// starts off with a rating of 1 and no songs. The app must not contain duplicate playlists (i.e., playlists
+// with the same title). If the playlist already exists, indicate the problem.
 void DotifyApp::addPlaylist() {
+    string playlistName = "";
+    cout << "What is the title of the playlist you’d like to create?" << endl;
+    playlistName = getLine();
+    
     
 }
 
@@ -154,8 +194,31 @@ void DotifyApp::removeSongFromPlaylist() {
     
 }
 
+// This command displays all of the songs in the user’s library. The user specifies the criterion
+//  to order the songs by—name, artist, album, or plays. The songs are displayed in a numbered list,
+//  with each displaying its name, artist, album, plays, and identifier.
 void DotifyApp::displayLibrarySongs() {
+    if (dotDriver.libIsEmpty()) {
+        cout << "You have no songs in your library." << endl;
+        return;
+    }
     
+    string category;
+    
+    cout << "What category should the songs be ordered by? (NAME/ARTIST/ALBUM/PLAYS)" << endl;
+    category = getInput();
+    if (category != "NAME" && category != "ARTIST" && category != "ALBUM" && category != "PLAYS") {
+        cout << "\"" << category << "\" is not a valid criterion to order by." << endl;
+        return;
+    }
+    
+    vector<shared_ptr<LibrarySong>> sortedLibrary = dotDriver.getSortedLibrary(category);
+    
+    for (int i = 0; i < sortedLibrary.size(); i++) {
+        cout << i << ". \"" << sortedLibrary.at(i)->getSongName() << "\" by " << sortedLibrary.at(i)->getSongArtist() <<
+        " (" << sortedLibrary.at(i)->getSongAlbum() << ") - " << sortedLibrary.at(i)->getNumPlays() << " plays [#" <<
+        sortedLibrary.at(i)->getIdentifier() << "]" << endl;
+    }
 }
 
 void DotifyApp::displayPlaylists() {
@@ -170,7 +233,42 @@ void DotifyApp::ratePlaylist() {
     
 }
 
+// This command plays a song in the user’s library a certain number of times. The user specifies the song’s
+// identifier and the number of times to play the song. If the provided value is invalid, assume that the song
+// was played 0 times. Display the number of plays started with and the new number of plays for that song. If the
+// song does not exist in the library, indicate the problem.
+
 void DotifyApp::playSong() {
+    unsigned int identifier = 0;
+    cout << "What is the identifier of the song you’d like to listen to?" << endl;
+    identifier = getInt();
+    unsigned int oldTimesPlayed = dotDriver.getLibSong(identifier)->getNumPlays();
+    
+    // If song does not exist in library, tells the user
+    if (!dotDriver.libContains(identifier)) {
+        cout << "No song with identifier #" << identifier << " exists in your library." << endl;
+        return;
+    }
+    
+    // If song exists, ask for number of times to play song
+    unsigned int numTimes = 0;
+    cout << "How many times would you like to play this song?" << endl;
+    cout << "> ";
+    cin >> numTimes;
+    cin.ignore();
+    if (cin.fail()) {
+        numTimes = 0;
+        cin.clear();
+        cin.ignore(80, '\n');
+    }
+    
+    dotDriver.getLibSong(identifier)->playSong(numTimes);
+    
+    cout << "\"" << dotDriver.getLibSong(identifier)->getSongName() << "\" by " <<
+    dotDriver.getLibSong(identifier)->getSongArtist() << " (" << dotDriver.getLibSong(identifier)->getSongAlbum() <<
+    "), identified as #" << dotDriver.getLibSong(identifier)->getIdentifier() << ", played successfully "
+    << numTimes << " times (" << oldTimesPlayed << " plays -> " << dotDriver.getLibSong(identifier)->getNumPlays() <<
+    " plays)." << endl;
     
 }
 
@@ -206,7 +304,7 @@ string DotifyApp::getInput() {
     string input = "";
     cout << "\n> ";
     cin >> input;
-    cin.ignore();
+    cin.ignore(80, '\n');
     transform(input.begin(), input.end(), input.begin(), ::toupper);
     return input;
 }
@@ -228,7 +326,7 @@ unsigned int DotifyApp::getInt() {
     while (!cin) {
         cout << "Invalid input. Please input a positive integer." << endl;
         cin.clear();
-        cin.ignore();
+        cin.ignore(80, '\n');
         cout << "> ";
         cin >> input;
     }
