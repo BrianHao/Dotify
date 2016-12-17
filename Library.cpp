@@ -13,8 +13,10 @@ vector<shared_ptr<LibrarySong>> Library::sortLibrary(string sortCategory) {
         sortedLibrary = getLibSortedByArtist();
     } else if (sortCategory == "ALBUM") {
         sortedLibrary = getLibSortedByAlbum();
-    } else { //sortCatefory == "PLAYS"
+    } else if (sortCategory == "PLAYS"){
         sortedLibrary = getLibSortedByPlays();
+    } else { // //sortCatefory == "ID"
+        sortedLibrary = getLibSortedByIdentifier();
     }
     
     return sortedLibrary;
@@ -52,6 +54,16 @@ vector<shared_ptr<LibrarySong>> Library::getLibSortedByAlbum() {
 
 vector<shared_ptr<LibrarySong>> Library::getLibSortedByPlays() {
     SortedVector<shared_ptr<LibrarySong>, LibrarySong::LibSongPlaysComparator> sortedVec;
+    
+    for(auto i : myLibrary){
+        sortedVec.insert(i.second);
+    }
+    
+    return sortedVec.toVector();
+}
+
+vector<shared_ptr<LibrarySong>> Library::getLibSortedByIdentifier() {
+    SortedVector<shared_ptr<LibrarySong>, LibrarySong::LibSongIdentifierComparator> sortedVec;
     
     for(auto i : myLibrary){
         sortedVec.insert(i.second);

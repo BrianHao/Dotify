@@ -15,6 +15,5 @@ void Playlist::removeSong(unsigned int identifier) {
     }
 }
 
-
 #endif
 

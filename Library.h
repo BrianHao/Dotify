@@ -36,6 +36,7 @@ private:
     vector<shared_ptr<LibrarySong>> getLibSortedByArtist();
     vector<shared_ptr<LibrarySong>> getLibSortedByAlbum();
     vector<shared_ptr<LibrarySong>> getLibSortedByPlays();
+    vector<shared_ptr<LibrarySong>> getLibSortedByIdentifier();
     
 };
 

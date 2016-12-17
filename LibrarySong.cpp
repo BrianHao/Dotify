@@ -3,6 +3,7 @@
 
 #include "LibrarySong.h"
 using namespace std;
+const string DELIM = "|";
 
 unsigned int LibrarySong::createIdentifier(string inString) {
     unsigned int identifier = 0;
@@ -12,6 +13,23 @@ unsigned int LibrarySong::createIdentifier(string inString) {
     }
     
     return identifier;
+}
+
+string LibrarySong::toLibraryExportFormat() {
+    string expFormat = "";
+    
+    expFormat = libSong->getSongName() + DELIM + libSong->getSongArtist() + DELIM + libSong->getSongAlbum() +
+        DELIM + to_string(numberOfPlays) + DELIM + to_string(identifier);
+    
+    return expFormat;
+}
+
+string LibrarySong::toPlaylistExportFormat() {
+    string expFormat = "";
+    
+    expFormat = libSong->getSongName() + DELIM + libSong->getSongArtist() + DELIM + libSong->getSongAlbum();
+    
+    return expFormat;
 }
 
 #endif

@@ -23,6 +23,10 @@ public:
     unsigned int getNumPlays() { return numberOfPlays; };
     unsigned int getIdentifier() { return identifier; };
     
+    // Returns itself in the export format
+    string toLibraryExportFormat();
+    string toPlaylistExportFormat();
+    
     // Comparators
     // Returns the comparison of two LibrarySongs by different categories
     struct LibSongNameComparator {
@@ -42,7 +46,12 @@ public:
     };
     struct LibSongPlaysComparator {
         bool operator()(shared_ptr<LibrarySong> leftSong, shared_ptr<LibrarySong> rightSong) {
-            return leftSong->getNumPlays() < rightSong->getNumPlays();
+            return leftSong->getNumPlays() > rightSong->getNumPlays();
+        }
+    };
+    struct LibSongIdentifierComparator {
+        bool operator()(shared_ptr<LibrarySong> leftSong, shared_ptr<LibrarySong> rightSong) {
+            return leftSong->getIdentifier() < rightSong->getIdentifier();
         }
     };
     

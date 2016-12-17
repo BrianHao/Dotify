@@ -44,6 +44,9 @@ public:
     // Checks if a playlist with a certain name already exists
     bool contains(string title) { return playlistMap.count(title) == 1; };
     
+    // Checks if a playlist is empty
+    bool isEmpty(string title) { return playlistMap[title]->numSongs() == 0; };
+    
 private:
     // Map containing playlist pointers
     unordered_map<string, shared_ptr<Playlist>> playlistMap;

@@ -25,9 +25,6 @@ public:
     shared_ptr<LibrarySong> getLibSong(unsigned int identifier) {
         return dotLibrary.getLibSong(identifier); };
     bool libIsEmpty() { return dotLibrary.empty(); };
-    //*** TO DO
-    //export
-    //import
     
     // Playlist commands
     void addPlaylist(shared_ptr<Playlist> inPlaylist) {
@@ -48,11 +45,8 @@ public:
         return dotPlaylistDriver.getListOfPlaylistsSorted(); };
     vector<string> playlistsContainingSong(unsigned int identifier) {
         return dotPlaylistDriver.playlistsContainingSong(identifier); };
-    //*** TO DO
-    //autogenerate
-    //export
-    //import
-    
+    bool containsPlaylistWithName(string title) { return dotPlaylistDriver.contains(title); };
+    bool isEmpty(string title) { return dotPlaylistDriver.isEmpty(title); };
     
 private:
     Library dotLibrary;

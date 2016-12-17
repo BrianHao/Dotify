@@ -16,16 +16,20 @@ public:
     DotifyApp() {};
     ~DotifyApp() {};
     
-    // Implaments loading from a library and playlist file from the commandline
-    void load(int argc, const char * argv[]);
-    
     // Runs the Dotify Application
     // Continually receives input from the user and executes the corresponding command
-    void run();
+    void run(int argc, const char * argv[]);
     
 private:
     // An instsance of the Dotify Driver
     DotifyDriver dotDriver;
+    
+    // Implements loading from a library and playlist file from the commandline
+    void load(int argc, const char * argv[]);
+    void loadLibrary(string fileName);
+    void loadPlaylists(string fileName);
+    vector<string> parseStringToVector(const string exportFormatString);
+    
     
     // Functionality of the ToDoList App, mapped to input by the user
     void addSong();

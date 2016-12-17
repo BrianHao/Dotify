@@ -24,6 +24,7 @@ public:
     unsigned int numSongs() { return myPlaylist.size(); };
     vector<shared_ptr<LibrarySong>> getVector() { return myPlaylistVec; };
     bool contains(unsigned int identifier) { return myPlaylist.count(identifier) == 1; };
+    string toExportFormat() { return myName + "|" + to_string(myRating)+ "|" + to_string(numSongs()); };
     
     // Add and remove songs
     void addSong(shared_ptr<LibrarySong> inSong) {
@@ -37,7 +38,7 @@ public:
             if (leftPlaylist->getRating() == rightPlaylist->getRating()) {
                 return leftPlaylist->getName() < rightPlaylist->getName();
             }
-            return leftPlaylist->getRating() < rightPlaylist->getRating();
+            return leftPlaylist->getRating() > rightPlaylist->getRating();
         }
     };
     
