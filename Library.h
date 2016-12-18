@@ -1,3 +1,8 @@
+/*************/
+/** LIBRARY **/
+/*************/
+// Contains an unordered_map of Library Song pointers, using its identifier as the key
+
 #ifndef LIBRARY_H
 #define LIBRARY_H
 
@@ -21,6 +26,8 @@ public:
     void playSong(unsigned int identifier, unsigned int numTimesPlayed) {
         myLibrary[identifier]->playSong(numTimesPlayed); };
     shared_ptr<LibrarySong> getLibSong(unsigned int identifier) { return myLibrary[identifier]; };
+    
+    // Public Helper Functions
     bool contains(unsigned int identifier) { return myLibrary.count(identifier) == 1; };
     bool empty() { return myLibrary.empty(); };
     

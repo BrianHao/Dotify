@@ -1,3 +1,9 @@
+/***************/
+/** DOTIFY_APP**/
+/***************/
+// A Dotify App contains an instance of a Dotify Driver, and uses it to handle commands from the user
+// to interact with the application.
+
 #ifndef DOTIFYAPP_H
 #define DOTIFYAPP_H
 

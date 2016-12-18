@@ -1,3 +1,6 @@
+/**********/
+/** SONG **/
+/**********/
 // A Song item contains a name, artist and album
 
 #ifndef SONG_H

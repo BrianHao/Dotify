@@ -1,5 +1,7 @@
-// Library Song
-// Wrapper class for Song
+/******************/
+/** LIBRARY_SONG **/
+/******************/
+// Wrapper class for Song, contains a Song pointer and its identifier and number of plays
 
 #ifndef LIBRARYSONG_H
 #define LIBRARYSONG_H
@@ -20,12 +22,13 @@ public:
     string getSongArtist() { return libSong->getSongArtist(); };
     string getSongAlbum() { return libSong->getSongAlbum(); };
     shared_ptr<Song> getSong() { return libSong; };
-    void playSong(unsigned int inNumTimesPlayed) { numberOfPlays += inNumTimesPlayed; };
     unsigned int getNumPlays() { return numberOfPlays; };
     unsigned int getIdentifier() { return identifier; };
-    void setIdentifier(unsigned int inID) { identifier = inID; };
     
-    // Returns itself in the export format
+    // Plays the song a number of times
+    void playSong(unsigned int inNumTimesPlayed) { numberOfPlays += inNumTimesPlayed; };
+    
+    // Returns itself in the export file format
     string toLibraryExportFormat();
     string toPlaylistExportFormat();
     

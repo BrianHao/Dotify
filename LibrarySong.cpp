@@ -1,3 +1,8 @@
+/******************/
+/** LIBRARY_SONG **/
+/******************/
+// Wrapper class for Song, contains a Song pointer and its identifier and number of plays
+
 #ifndef LIBRARYSONG_CPP
 #define LIBRARYSONG_CPP
 
@@ -5,6 +10,7 @@
 using namespace std;
 const string DELIM = "|";
 
+// Generates an identifier integer
 unsigned int LibrarySong::createIdentifier(string inString) {
     unsigned int identifier = 0;
     
@@ -15,6 +21,7 @@ unsigned int LibrarySong::createIdentifier(string inString) {
     return identifier;
 }
 
+// Returns itself as a string in the library export file format
 string LibrarySong::toLibraryExportFormat() {
     string expFormat = "";
     
@@ -24,6 +31,7 @@ string LibrarySong::toLibraryExportFormat() {
     return expFormat;
 }
 
+// Returns itself as a string in the playlist export file format
 string LibrarySong::toPlaylistExportFormat() {
     string expFormat = "";
     

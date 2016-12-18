@@ -1,3 +1,9 @@
+/**************/
+/** PLAYLIST **/
+/**************/
+// A Playlist contains an unordered_map of Library Song pointers, using its identifier as the key
+// It also catains its own name and rating, as well as functions to interface with the playlist
+
 #ifndef PLAYLIST_H
 #define PLAYLIST_H
 
@@ -43,6 +49,7 @@ public:
     };
     
 private:
+    // Private Playlist variables
     unordered_map<unsigned int, shared_ptr<LibrarySong>> myPlaylist;
     vector<shared_ptr<LibrarySong>> myPlaylistVec;
     string myName = "";

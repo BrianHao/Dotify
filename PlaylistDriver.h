@@ -1,3 +1,9 @@
+/*********************/
+/** PLAYLIST_DRIVER **/
+/*********************/
+// A Playlist Driver contains an unordered_map of playlist pointers, using its name as the key
+// It also contains functions to interface with the map of playlists
+
 #ifndef PLAYLISTDRIVER_H
 #define PLAYLISTDRIVER_H
 

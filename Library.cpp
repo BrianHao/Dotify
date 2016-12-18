@@ -1,9 +1,15 @@
+/*************/
+/** LIBRARY **/
+/*************/
+// Contains an unordered_map of Library Song pointers, using its identifier as the key
+
 #ifndef LIBRARY_CPP
 #define LIBRARY_CPP
 
 #include "Library.h"
 using namespace std;
 
+// Returns a vector of the library sorted by the provided category
 vector<shared_ptr<LibrarySong>> Library::sortLibrary(string sortCategory) {
     vector<shared_ptr<LibrarySong>> sortedLibrary;
     
@@ -22,6 +28,7 @@ vector<shared_ptr<LibrarySong>> Library::sortLibrary(string sortCategory) {
     return sortedLibrary;
 }
 
+// Returns a vector of the library sorted by name
 vector<shared_ptr<LibrarySong>> Library::getLibSortedByName() {
     SortedVector<shared_ptr<LibrarySong>, LibrarySong::LibSongNameComparator> sortedVec;
     
@@ -32,6 +39,7 @@ vector<shared_ptr<LibrarySong>> Library::getLibSortedByName() {
     return sortedVec.toVector();
 }
 
+// Returns a vector of the library sorted by artist
 vector<shared_ptr<LibrarySong>> Library::getLibSortedByArtist() {
     SortedVector<shared_ptr<LibrarySong>, LibrarySong::LibSongArtistComparator> sortedVec;
     
@@ -42,6 +50,7 @@ vector<shared_ptr<LibrarySong>> Library::getLibSortedByArtist() {
     return sortedVec.toVector();
 }
 
+// Returns a vector of the library sorted by album
 vector<shared_ptr<LibrarySong>> Library::getLibSortedByAlbum() {
     SortedVector<shared_ptr<LibrarySong>, LibrarySong::LibSongAlbumComparator> sortedVec;
     
@@ -52,6 +61,7 @@ vector<shared_ptr<LibrarySong>> Library::getLibSortedByAlbum() {
     return sortedVec.toVector();
 }
 
+// Returns a vector of the library sorted by plays
 vector<shared_ptr<LibrarySong>> Library::getLibSortedByPlays() {
     SortedVector<shared_ptr<LibrarySong>, LibrarySong::LibSongPlaysComparator> sortedVec;
     
@@ -62,6 +72,7 @@ vector<shared_ptr<LibrarySong>> Library::getLibSortedByPlays() {
     return sortedVec.toVector();
 }
 
+// Returns a vector of the library sorted by identifier
 vector<shared_ptr<LibrarySong>> Library::getLibSortedByIdentifier() {
     SortedVector<shared_ptr<LibrarySong>, LibrarySong::LibSongIdentifierComparator> sortedVec;
     

@@ -1,3 +1,9 @@
+/***************/
+/** DOTIFY_APP**/
+/***************/
+// A Dotify App contains an instance of a Dotify Driver, and uses it to handle commands from the user
+// to interact with the application.
+
 #ifndef DOTIFYAPP_CPP
 #define DOTIFYAPP_CPP
 
@@ -60,6 +66,10 @@ void DotifyApp::run(int argc, const char * argv[]) {
     }
 }
 
+    /********************/
+    /** DOTIFY LOADING **/
+    /********************/
+
 // Implements loading from a library and playlist file from the commandline
 void DotifyApp::load(int argc, const char * argv[]) {
     // No files provided
@@ -69,17 +79,16 @@ void DotifyApp::load(int argc, const char * argv[]) {
         return;
     }
     
-    // One file provided (Check for valid library file)
+    // One file provided
     if (argc == 2) {
         loadLibrary(argv[1]);
         cout << "No playlists file provided." << endl;
     }
     
-    // Two (or more) files provided (Check for valid library and playlists file)
+    // Two (or more) files provided
     if (argc > 2) {
         loadLibrary(argv[1]);
         loadPlaylists(argv[2]);
-//        cout << "Loading playlists from " << "\"" << fileName << "\"." << endl;
     }
 }
 
@@ -88,11 +97,16 @@ void DotifyApp::loadLibrary(string fileName) {
     vector<string> libraryVec;
     string readLine = "";
     
+    // Opens library file
     ifstream myfile (fileName);
+    
+    // If cannot open library file, returns
     if (!myfile) {
         cout << "Could not load library from “" << "\"" << fileName << "\". Skipping." << endl;
+        return;
     }
     
+    // Reads each line in the library file into a vector
     if (myfile.is_open()) {
         while (getline(myfile, readLine))
         {
@@ -101,14 +115,14 @@ void DotifyApp::loadLibrary(string fileName) {
         myfile.close();
     }
     
+    // If the vector (library file) is empty, returns
     if (libraryVec.empty()) {
         cout << "Could not load library from “" << "\"" << fileName << "\". Skipping." << endl;
         return;
     }
     
+    // Parse each individual string into a song and add it to the library
     vector<string> stringVec;
-    
-    // Parse each string into a song and add it to the library
     for (int i = 0; i < libraryVec.size(); i++) {
         stringVec = parseStringToVector(libraryVec.at(i));
         shared_ptr<Song> newSong(new Song(stringVec[0], stringVec[1], stringVec[2]));
@@ -125,11 +139,15 @@ void DotifyApp::loadPlaylists(string fileName) {
     vector<string> playlistsVec;
     string readLine = "";
     
+    // Opens playlists file
     ifstream myfile (fileName);
+    
+    // If cannot open playlists file, returns
     if (!myfile) {
         cout << "Could not load playlists from “" << "\"" << fileName << "\". Skipping." << endl;
     }
     
+    // Reads each line in the playlists file into a vector
     if (myfile.is_open()) {
         while (getline(myfile, readLine))
         {
@@ -138,16 +156,17 @@ void DotifyApp::loadPlaylists(string fileName) {
         myfile.close();
     }
     
+    // If the vector (playlists file) is empty, returns
     if (playlistsVec.empty()) {
         cout << "Could not load playlists from “" << "\"" << fileName << "\". Skipping." << endl;
         return;
     }
     
+    // Parse the first string into a playlist, load the next "numSongs" strings as songs, repeat
     vector<string> playlistVec;
     vector<string> playlistSongVec;
     unsigned int identifier = 0;
     
-    // Parse the first string into a playlist, load the next "numSongs" strings as songs, repeat
     for (int i = 0; i < playlistsVec.size(); i++) {
         playlistVec = parseStringToVector(playlistsVec.at(i));
         shared_ptr<Playlist> newPlaylist(new Playlist(playlistVec[0], stoi(playlistVec[1])));
@@ -173,6 +192,7 @@ void DotifyApp::loadPlaylists(string fileName) {
     
 }
 
+// Generates an identifier integer
 unsigned int DotifyApp::createIdentifier(string inString) {
     unsigned int identifier = 0;
     
@@ -183,6 +203,7 @@ unsigned int DotifyApp::createIdentifier(string inString) {
     return identifier;
 }
 
+// Parses a string into a vector, separated by the delimiter character '|'
 vector<string> DotifyApp::parseStringToVector(const string exportFormatString) {
     stringstream ss(exportFormatString);
     string item;
@@ -201,7 +222,6 @@ vector<string> DotifyApp::parseStringToVector(const string exportFormatString) {
 // This command adds a new song to the user’s library. The user specifies the song’s name, artist, and album.
 // By default, the song is assigned the next available identifier and starts with 0 plays. If the song already
 // exists in the library, indicate the problem.
-
 void DotifyApp::addSong() {
     shared_ptr<LibrarySong> newLibSong(new LibrarySong(getSong()));
     
@@ -238,7 +258,6 @@ shared_ptr<Song> DotifyApp::getSong() {
 // This command removes a song from the user’s library and any playlists that that song belongs to.
 // The user specifies the song’s identifier. Display the playlists that the song was removed from.
 // If the song does not exist in the library, indicate the problem.
-
 void DotifyApp::removeSong() {
     unsigned int identifier = 0;
     cout << "What is the identifier of the song you’d like to remove from your library?" << endl;
@@ -340,7 +359,13 @@ void DotifyApp::renamePlaylist() {
     cout << "\"" << playlistName << "\" playlist renamed successfully to \"" << newName << "\"" << endl;
 }
 
-// TO BE IMPLEMENED
+// This command autogenerates a playlist. The user specifies the category to autogenerate by.
+// By default, all autogenerated playlists start off with a rating of 1. If an autogenerated playlist
+// has a title that already exists, indicate the problem.
+// There are four possible autogeneration options: a song NAME, song ARTIST, song ALBUM, or MAGIC. If
+// the user selects NAME, ARTIST, or ALBUM, then the user gives a specific query. All songs exactly matching
+// that criteria get added to a new playlist titled with that specific query.
+
 void DotifyApp::autogenerate() {
     cout << "To be implemented." << endl;
 }
@@ -591,6 +616,7 @@ void DotifyApp::exportToFile() {
     cout << "Library and playlists exported successfully!" << endl;
 }
 
+// This command displays all of the available commands and their descriptions.
 void DotifyApp::help() {
     cout << "AS: Purchases a new song to your library" << endl;
     cout << "RS: Removes a specific song from your library" << endl;
