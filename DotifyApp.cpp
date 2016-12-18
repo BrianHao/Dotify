@@ -106,14 +106,13 @@ void DotifyApp::loadLibrary(string fileName) {
         return;
     }
     
-    vector<string> libSongVec;
+    vector<string> stringVec;
     
     // Parse each string into a song and add it to the library
     for (int i = 0; i < libraryVec.size(); i++) {
-        libSongVec = parseStringToVector(libraryVec.at(i));
-        shared_ptr<Song> newSong(new Song(libSongVec[0], libSongVec[1], libSongVec[2]));
-        shared_ptr<LibrarySong> newLibSong(new LibrarySong(newSong));
-        newLibSong->playSong(stoi(libSongVec[3]));
+        stringVec = parseStringToVector(libraryVec.at(i));
+        shared_ptr<Song> newSong(new Song(stringVec[0], stringVec[1], stringVec[2]));
+        shared_ptr<LibrarySong> newLibSong(new LibrarySong(newSong, stoi(stringVec[3])));
         dotDriver.addSongToLibrary(newLibSong);
     }
     
@@ -144,6 +143,44 @@ void DotifyApp::loadPlaylists(string fileName) {
         return;
     }
     
+    vector<string> playlistVec;
+    vector<string> playlistSongVec;
+    unsigned int identifier = 0;
+    
+    // Parse the first string into a playlist, load the next "numSongs" strings as songs, repeat
+    for (int i = 0; i < playlistsVec.size(); i++) {
+        playlistVec = parseStringToVector(playlistsVec.at(i));
+        shared_ptr<Playlist> newPlaylist(new Playlist(playlistVec[0], stoi(playlistVec[1])));
+        dotDriver.addPlaylist(newPlaylist);
+        // If playlist contains songs, add them
+        if (stoi(playlistVec[2]) > 0) {
+            for (int j = 1; j <= stoi(playlistVec[2]); j++) {
+                playlistSongVec = parseStringToVector(playlistsVec.at(i+j));
+                identifier = createIdentifier(playlistSongVec[0] + playlistSongVec[1] + playlistSongVec[2]);
+                
+                if (!dotDriver.libContains(identifier)) {
+                    cout << "Could not find song in library: \"" << playlistsVec.at(i+j) << "\"" << endl;
+                    return;
+                }
+                
+                dotDriver.addSongToPlayList(playlistVec[0], dotDriver.getLibSong(identifier));
+            }
+        }
+        i += stoi(playlistVec[2]);
+    }
+    
+    cout << "Loading library from " << "\"" << fileName << "\"." << endl;
+    
+}
+
+unsigned int DotifyApp::createIdentifier(string inString) {
+    unsigned int identifier = 0;
+    
+    for (int i = 0; i < inString.size(); i++) {
+        identifier += inString[i]*(i+1);
+    }
+    
+    return identifier;
 }
 
 vector<string> DotifyApp::parseStringToVector(const string exportFormatString) {
@@ -407,7 +444,7 @@ void DotifyApp::displayPlaylists() {
     }
     
     for (int i = 0; i < playlists.size(); i++) {
-        cout << i+1 << ". \"" << playlists.at(i)->getName() << " - Rating: " << playlists.at(i)->getRating() <<
+        cout << i+1 << ". \"" << playlists.at(i)->getName() << "\" - Rating: " << playlists.at(i)->getRating() <<
             " - " << playlists.at(i)->numSongs() << " songs" << endl;
     }
 }
@@ -531,7 +568,6 @@ void DotifyApp::exportToFile() {
             }
             libraryFile.close();
         }
-        
     }
 
     // Export Playlists
@@ -544,15 +580,13 @@ void DotifyApp::exportToFile() {
                 playlistSongsVec = dotDriver.getListOfSongsInPlaylist(playlistsVec.at(i)->getName());
                 if (!playlistSongsVec.empty()) {
                     for (int j = 0; j < playlistSongsVec.size(); j++) {
-                        playlistFile << playlistSongsVec.at(i)->toPlaylistExportFormat() + "\n";
+                        playlistFile << playlistSongsVec.at(j)->toPlaylistExportFormat() + "\n";
                     }
                 }
             }
             playlistFile.close();
         }
-        
     }
-    
     
     cout << "Library and playlists exported successfully!" << endl;
 }

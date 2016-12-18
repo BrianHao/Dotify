@@ -11,7 +11,8 @@ using namespace std;
 class LibrarySong {
 public:
     // Constructor and Destructor
-    LibrarySong(shared_ptr<Song> inLibSong = 0) : libSong(inLibSong) {};
+    LibrarySong(shared_ptr<Song> inLibSong = 0, unsigned int inNumPlays = 0) :
+        libSong(inLibSong), numberOfPlays(inNumPlays) {};
     ~LibrarySong() {};
     
     // Setters and Getters
@@ -22,6 +23,7 @@ public:
     void playSong(unsigned int inNumTimesPlayed) { numberOfPlays += inNumTimesPlayed; };
     unsigned int getNumPlays() { return numberOfPlays; };
     unsigned int getIdentifier() { return identifier; };
+    void setIdentifier(unsigned int inID) { identifier = inID; };
     
     // Returns itself in the export format
     string toLibraryExportFormat();

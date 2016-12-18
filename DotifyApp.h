@@ -29,7 +29,7 @@ private:
     void loadLibrary(string fileName);
     void loadPlaylists(string fileName);
     vector<string> parseStringToVector(const string exportFormatString);
-    
+    unsigned int createIdentifier(string inString);
     
     // Functionality of the ToDoList App, mapped to input by the user
     void addSong();
