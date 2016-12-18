@@ -83,5 +83,31 @@ vector<shared_ptr<LibrarySong>> Library::getLibSortedByIdentifier() {
     return sortedVec.toVector();
 }
 
+// Get vector of Library songs containing a certain string in a certain category for autogenerate
+vector<shared_ptr<LibrarySong>> Library::agLibrary(string query, string category) {
+    vector<shared_ptr<LibrarySong>> agLibrary;
+    
+    if (category == "NAME") {
+        for(auto i : myLibrary){
+            if (i.second->getSongName() == query) {
+                agLibrary.push_back(i.second);
+            }
+        }
+    } else if (category == "ARTIST") {
+        for(auto i : myLibrary){
+            if (i.second->getSongArtist() == query) {
+                agLibrary.push_back(i.second);
+            }
+        }
+    } else { // ALBUM
+        for(auto i : myLibrary){
+            if (i.second->getSongAlbum() == query) {
+                agLibrary.push_back(i.second);
+            }
+        }
+    }
+    return agLibrary;
+}
+
 
 #endif

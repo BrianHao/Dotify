@@ -45,6 +45,8 @@ private:
     void removePlaylist();
     void renamePlaylist();
     void autogenerate();
+    void agPlaylist(string category, string query);
+    void agMagic();
     void addSongToPlaylist();
     void removeSongFromPlaylist();
     void displayLibrarySongs();

@@ -34,6 +34,9 @@ public:
     // Get sorted list of Library songs for display
     vector<shared_ptr<LibrarySong>> sortLibrary(string sortCategory);
     
+    // Get vector of Library songs containing a certain string in a certain category for autogenerate
+    vector<shared_ptr<LibrarySong>> agLibrary(string query, string category);
+    
 private:
     // Map of LibrarySong pointers, using its identifier as a key
     unordered_map<unsigned int, shared_ptr<LibrarySong>> myLibrary;

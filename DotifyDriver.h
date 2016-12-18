@@ -31,6 +31,7 @@ public:
     shared_ptr<LibrarySong> getLibSong(unsigned int identifier) {
         return dotLibrary.getLibSong(identifier); };
     bool libIsEmpty() { return dotLibrary.empty(); };
+    vector<shared_ptr<LibrarySong>> agLibrary(string query, string category) { return dotLibrary.agLibrary(query, category); };
     
     // Playlist commands
     void addPlaylist(shared_ptr<Playlist> inPlaylist) {
