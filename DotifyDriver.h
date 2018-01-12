@@ -8,7 +8,7 @@
 #define DOTIFYDRIVER_H
 
 #include "Library.h"
-#include "Playlistdriver.h"
+#include "PlaylistDriver.h"
 using namespace std;
 
 class DotifyDriver {
