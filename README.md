@@ -1,17 +1,8 @@
-# Assignment 3 - Dotify
+# Dotify
 Brian Hao
 
-CSCI235
 
-
-Dotify is an app that allows a user to maintain a library of songs and 
-create and manage playlists containing said songs.
-
-
-### Songs, Library and Playlists
-
-A Different Clever Title 3|Another Clever Artist|Clever Album
-
+A console app that allows a user to maintain a library of songs and create and manage playlists containing said songs.
 
 ### Commands available to the user
 The following are the actions available to the user when using Dotify:
@@ -85,10 +76,6 @@ number of plays, and identifier.
 #### PLS
 This command displays all of the playlists. The playlists are displayed in a numbered list ordered first by rating 
 and then alphabetically by title. Each playlist shows its title, rating, and number of songs.
-
-
-#### AG
-=== Not implemented in time ===
 
 
 #### EXP
