@@ -145,6 +145,7 @@ void DotifyApp::loadPlaylists(string fileName) {
     // If cannot open playlists file, returns
     if (!myfile) {
         cout << "Could not load playlists from “" << "\"" << fileName << "\". Skipping." << endl;
+        return;
     }
     
     // Reads each line in the playlists file into a vector
@@ -183,12 +184,15 @@ void DotifyApp::loadPlaylists(string fileName) {
                 }
                 
                 dotDriver.addSongToPlayList(playlistVec[0], dotDriver.getLibSong(identifier));
+                if (i+j == playlistsVec.size() - 1) {
+                    break;
+                }
             }
         }
-        i += stoi(playlistVec[2]);
+        i += (stoi(playlistVec[2]));
     }
     
-    cout << "Loading library from " << "\"" << fileName << "\"." << endl;
+    cout << "Loading playlist from " << "\"" << fileName << "\"." << endl;
     
 }
 
